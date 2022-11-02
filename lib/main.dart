@@ -1,5 +1,6 @@
 import 'package:cattlediseasedetection/view/login_page.dart';
 import 'package:cattlediseasedetection/view/main_page.dart';
+import 'package:cattlediseasedetection/viewmodel/http_vm.dart';
 import 'package:cattlediseasedetection/viewmodel/user_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,8 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var c = Get.put(UserVM());
+  var httpVM = Get.put(HttpVM());
+  await httpVM.dioSetParams();
   await c.checkLoginStatus();
   runApp(const MyApp());
 }
