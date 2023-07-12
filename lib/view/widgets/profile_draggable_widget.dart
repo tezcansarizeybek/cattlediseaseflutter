@@ -20,22 +20,27 @@ class ProfileDraggableWidget extends StatelessWidget {
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.background,
               ),
               child: GetBuilder<UserVM>(
                   id: 1,
                   builder: (c) {
                     return ListView(controller: controller, children: [
                       ListTile(
-                        title: Text("Kullanıcı Adı: ${c.user.value.username}"),
+                        title: Obx(() =>
+                            Text("Kullanıcı Adı: ${c.user.value.username}")),
                       ),
                       ListTile(
-                        title: Text(
-                            "Yapılan İstek Sayısı: ${c.user.value.requestCount}"),
+                        title: Obx(
+                          () => Text(
+                              "Yapılan İstek Sayısı: ${c.user.value.requestCount}"),
+                        ),
                       ),
                       ListTile(
-                        title: Text(
-                            "Kalan İstek Sayısı: ${c.user.value.remainingRequest}"),
+                        title: Obx(
+                          () => Text(
+                              "Kalan İstek Sayısı: ${c.user.value.totalRequest - c.user.value.requestCount}"),
+                        ),
                       )
                     ]);
                   }),

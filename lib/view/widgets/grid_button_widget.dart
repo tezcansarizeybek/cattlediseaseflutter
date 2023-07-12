@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class GridButtonWidget extends StatelessWidget {
   const GridButtonWidget({Key? key, required this.title, this.func})
@@ -16,7 +17,9 @@ class GridButtonWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Theme.of(context).primaryColorDark.withOpacity(0.5),
+            color: Get.isDarkMode
+                ? Theme.of(context).primaryColorDark.withOpacity(0.5)
+                : Theme.of(context).primaryColor.withOpacity(0.5),
           ),
           child: Center(
               child: Text(

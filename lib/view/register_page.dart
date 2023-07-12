@@ -28,14 +28,6 @@ class RegisterPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                 child: InputWidget(
-                    label: "E-Posta",
-                    controller: userInput.email,
-                    required: true),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                child: InputWidget(
                     label: "Kullanıcı Adı",
                     controller: userInput.username,
                     required: true),
@@ -55,24 +47,8 @@ class RegisterPage extends StatelessWidget {
                 child: InputWidget(
                     label: "Şifre Tekrar",
                     obscure: true,
-                    controller: userInput.password,
+                    controller: userInput.password2,
                     required: true),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                child: InputWidget(
-                  label: "Telefon",
-                  controller: userInput.phone,
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                child: InputWidget(
-                  label: "Adres",
-                  controller: userInput.address,
-                ),
               ),
               Padding(
                 padding:
@@ -83,8 +59,13 @@ class RegisterPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        await Get.find<UserVM>().register(userInput);
-                        Get.back();
+                        if (userInput.password.text !=
+                            userInput.password2.text) {
+                          Get.snackbar("Şifreler Eşleşmiyor!", "");
+                        } else {
+                          await Get.find<UserVM>().register(userInput);
+                          Get.back();
+                        }
                       }
                     },
                     style: ButtonStyle(

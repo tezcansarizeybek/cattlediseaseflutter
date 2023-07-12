@@ -1,4 +1,6 @@
+import 'package:cattlediseasedetection/viewmodel/disease_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MainNavbarWidget extends StatelessWidget {
   const MainNavbarWidget({Key? key, required this.profileFunc})
@@ -18,7 +20,9 @@ class MainNavbarWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await Get.find<DiseaseVM>().detectDiseaseDialog();
+                },
                 icon: const Icon(
                   Icons.search,
                   color: Colors.red,

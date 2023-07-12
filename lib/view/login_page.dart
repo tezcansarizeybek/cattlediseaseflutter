@@ -1,10 +1,11 @@
 import 'package:cattlediseasedetection/model/user_input_model.dart';
-import 'package:cattlediseasedetection/view/main_page.dart';
 import 'package:cattlediseasedetection/view/register_page.dart';
 import 'package:cattlediseasedetection/view/widgets/input_widget.dart';
+import 'package:cattlediseasedetection/viewmodel/http_vm.dart';
 import 'package:cattlediseasedetection/viewmodel/user_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -70,9 +71,11 @@ class LoginPage extends StatelessWidget {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             try {
-                              await c.login(userInput);
-                              Get.offAll(() => MainPage());
-                            } catch (e) {}
+                              await c.login(userInput.username.text,
+                                  userInput.password.text);
+                            } catch (e) {
+                              Get.snackbar("Hata", "$e");
+                            }
                           }
                         },
                         style: ButtonStyle(
@@ -87,7 +90,35 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         Get.to(() => RegisterPage(userInput: userInput));
                       },
-                      child: const Text("Hesabın Yok Mu?"))
+                      child: const Text("Hesabın Yok Mu?")),
+                  TextButton(
+                      onPressed: () async {
+                        TextEditingController ipCtrl = TextEditingController();
+                        await Get.dialog(Dialog(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: ipCtrl,
+                                  decoration: const InputDecoration(
+                                      label: Text("Adres Giriniz")),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setString(
+                                          'baseAddress', ipCtrl.text);
+                                      await Get.find<HttpVM>().dioSetParams();
+                                      Get.back();
+                                    },
+                                    child: const Text("Onayla"))
+                              ],
+                            ),
+                          ),
+                        ));
+                      },
+                      child: const Text("IP Ayarla"))
                 ],
               ),
             ),
